@@ -20,28 +20,28 @@ IFS=$'\n' read -d '' -r -a FILES_TO_COPY <<< "$FILES_TO_COPY_ENV"
 
 echo "Starting copy process..."
 echo "Excluded buckets: ${EXCLUDE_BUCKETS[*]}"
-echo "Files to copy from excluded buckets:"
-printf "  - %s\n" "${FILES_TO_COPY[@]}"
+# echo "Files to copy from excluded buckets:"
+# printf "  - %s\n" "${FILES_TO_COPY[@]}"
 echo "----------------------------------------"
 
 # Copy specific files from excluded buckets
-for file_entry in "${FILES_TO_COPY[@]}"; do
-    IFS=':' read -r bucket filename <<< "$file_entry"
+# for file_entry in "${FILES_TO_COPY[@]}"; do
+#     IFS=':' read -r bucket filename <<< "$file_entry"
     
-    echo "Copying ${filename} from ${bucket}"
+#     echo "Copying ${filename} from ${bucket}"
     
-    rclone copyto "${SOURCE_REMOTE}:${bucket}/${filename}" \
-                 "${DEST_REMOTE}:${bucket}/${filename}" \
-        --progress \
-        --log-file="${LOG_FILE}"
+#     rclone copyto "${SOURCE_REMOTE}:${bucket}/${filename}" \
+#                  "${DEST_REMOTE}:${bucket}/${filename}" \
+#         --progress \
+#         --log-file="${LOG_FILE}"
     
-    if [ $? -eq 0 ]; then
-        echo "✓ Successfully copied ${filename}"
-    else
-        echo "✗ Failed to copy ${filename}"
-    fi
-    echo "----------------------------------------"
-done
+#     if [ $? -eq 0 ]; then
+#         echo "✓ Successfully copied ${filename}"
+#     else
+#         echo "✗ Failed to copy ${filename}"
+#     fi
+#     echo "----------------------------------------"
+# done
 
 # Copy all other buckets completely
 for BUCKET in $(rclone lsd "${SOURCE_REMOTE}:" | awk '{print $NF}'); do
